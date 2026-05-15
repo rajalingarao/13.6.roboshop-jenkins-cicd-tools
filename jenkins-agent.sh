@@ -14,6 +14,7 @@ echo "*************   resize the volume - completed *************"
 
 
 yum install java-21-openjdk -y
+java --version
 echo "*************   java-21-openjdk - completed *************"
 
 # Terraform Installation
