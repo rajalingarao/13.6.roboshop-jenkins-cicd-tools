@@ -20,12 +20,14 @@ sudo lvextend -l +50%FREE /dev/RootVG/rootVol
 sudo lvextend -l +50%FREE /dev/RootVG/varVol 
 sudo xfs_growfs / 
 sudo xfs_growfs /var 
-
-
 echo "*************   resize the volume - completed *************"
 
+
 yum install java-21-openjdk -y
-echo "*************   java-21-openjdk installation - completed *************"
+alternatives --set java /usr/lib/jvm/java-21-openjdk/bin/java
+java --version
+echo "***************** Java-21 installation completed************"
+
 
 yum install -y yum-utils
 yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo

@@ -2,6 +2,12 @@
 curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenkins.repo
 yum upgrade -y
 yum install fontconfig java-21-openjdk jenkins -y
+
+
+yum install java-21-openjdk -y
+alternatives --set java /usr/lib/jvm/java-21-openjdk/bin/java
+java --version
+echo "***************** Java-21 installation completed************"
 systemctl daemon-reload
 
 #resize disk from 20GB to 50GB
