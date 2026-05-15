@@ -1,13 +1,23 @@
-variable "domain_name" {
-  type  = string 
-  default = "lithesh.shop"
+variable "project" {
+    default = "roboshop"
 }
 
-variable "allow_everything" {
-   type = string
-   default = "sg-088bbd993cbc52b59"
+variable "environment" {
+    default = "dev"
+}
+
+variable "domain_name" {
+  type        = string
+  default     = "lithesh.shop"
+  description = "description"
 }
 
 variable "zone_id" {
-  default = "Z012785114HGZTDQ8KSQH"
+  type        = string
+  default     = "Z012785114HGZTDQ8KSQH"
+  description = "description"
+}
+variable "allow_everything" {
+   type = string
+   default = "sg-088bbd993cbc52b59"
 }

@@ -1,49 +1,46 @@
-resource "aws_instance" "jenkins_master"  {
+resource "aws_instance" "jenkins_master" {
+  ami           = local.ami_id
+  instance_type = "t3.micro"
+  vpc_security_group_ids = [var.allow_everything]
+  subnet_id = "subnet-0ea9a2005fdcc6695" #replace your Subnet
 
-  instance_type           = "t3.micro"
-  vpc_security_group_ids  = [var.allow_everything] #replace your SG
-  ami                     = data.aws_ami.ami_info.id
-  subnet_id              = "subnet-0ea9a2005fdcc6695" 
-  user_data               = file("${path.module}/jenkins-master.sh")
-
-  # Define the root volume size and type
-  root_block_device  {
-    encrypted             = false
-    volume_type           = "gp3"
-    volume_size           = 60
-    iops                  = 3000
-    throughput            = 125
-    delete_on_termination = true
+  # need more for terraform
+  root_block_device {
+    volume_size = 50
+    volume_type = "gp3" # or "gp2", depending on your preference
   }
-  
-    tags = {
-    Name   = "Jenkins-Master"
-  }
+  user_data  = file("${path.module}/jenkins-master.sh")
+  tags = merge(
+    local.common_tags,
+    {
+        Name = "${var.project}-${var.environment}-jenkins-master"
+    }
+  )
 }
+
 resource "aws_instance" "jenkins_agent" {
+  ami           =  local.ami_id
+  instance_type = "t3.micro"
+  vpc_security_group_ids = [var.allow_everything]
+  subnet_id = "subnet-0ea9a2005fdcc6695"  #replace your Subnet
 
-  instance_type           = "t3.micro"
-  vpc_security_group_ids  = [var.allow_everything] #replace your SG
-  ami                     = data.aws_ami.ami_info.id
-  subnet_id              = "subnet-0ea9a2005fdcc6695" 
-  user_data               = file("${path.module}/jenkins-agent.sh")
-  
-  
-  # Define the root volume size and type
+  # need more for terraform
   root_block_device  {
-    encrypted             = false
-    volume_type           = "gp3"
-    volume_size           = 120
-    iops                  = 3000
-    throughput            = 125
-    delete_on_termination = true
-  }
-
-  tags = {
-    Name   = "Jenkins-Agent"
-  }
+      encrypted             = false
+      volume_type           = "gp3"
+      volume_size           = 120
+      iops                  = 3000
+      throughput            = 125
+      delete_on_termination = true
+    }
+    user_data    = file("${path.module}/jenkins-agent.sh")
+    tags = merge(
+      local.common_tags,
+      {
+          Name = "${var.project}-${var.environment}-jenkins-agent"
+      }
+    )
 }
-
 
 # resource "aws_key_pair" "tools" {
 #     key_name = "tools-key"
