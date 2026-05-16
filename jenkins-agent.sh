@@ -12,8 +12,13 @@ xfs_growfs /var/tmp
 xfs_growfs /var
 echo "*************   resize the volume - completed *************"
 
+# yum install java-21-openjdk -y
+# java --version
+# sudo alternatives --config java -e Enter to keep the current selection[+], or type selection number: = 1
+# java --version
 
-yum install java-21-openjdk -y
+sudo yum install -y java-21-openjdk java-21-openjdk-devel
+sudo alternatives --set java /usr/lib/jvm/java-21-openjdk/bin/java
 java --version
 echo "*************   java-21-openjdk - completed *************"
 
